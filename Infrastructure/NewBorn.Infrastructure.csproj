@@ -6,4 +6,18 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Application\NewBorn.Application.csproj" />
+    <ProjectReference Include="..\Domain\NewBorn.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Data\Configurations\" />
+    <Folder Include="Identity\" />
+    <Folder Include="Migrations\" />
+    <Folder Include="ExternalServices\" />
+    <Folder Include="Security\" />
+    <Folder Include="Repositories\" />
+  </ItemGroup>
+
 </Project>

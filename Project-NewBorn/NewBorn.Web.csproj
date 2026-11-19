@@ -7,4 +7,9 @@
     <RootNamespace>Project_NewBorn</RootNamespace>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Application\NewBorn.Application.csproj" />
+    <ProjectReference Include="..\Infrastructure\NewBorn.Infrastructure.csproj" />
+  </ItemGroup>
+
 </Project>
