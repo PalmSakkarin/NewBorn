@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="Application/NewBorn.Application.csproj" Id="c7c5fd9d-5111-49e4-820c-5f59e0c5fec1" />
+  <Project Path="Domain/NewBorn.Domain.csproj" Id="be36494e-283f-47fe-824b-97996119c07a" />
+  <Project Path="Infrastructure/NewBorn.Infrastructure.csproj" Id="6c4ada88-9396-4a38-8127-426c0fc06abc" />
+  <Project Path="Project-NewBorn/NewBorn.Web.csproj" />
+</Solution>
