@@ -1,0 +1,32 @@
+﻿@{
+    ViewData["Title"] = "Login";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="~/css/Login/Login.css" />
+</head>
+<body>
+    <main>
+        <h1>Login</h1>
+        <form>
+            <div>
+                <label for="username">Username</label>
+                <input id="username" name="username" type="text" />
+            </div>
+            <div>
+                <label for="password">Password</label>
+                <input id="password" name="password" type="password" />
+            </div>
+            <button type="button">Login</button>
+        </form>
+    </main>
+
+    <script src="~/js/Login/Login.js"></script>
+</body>
+</html>
