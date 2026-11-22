@@ -128,3 +128,20 @@ salt.hash
 - ตรวจว่า migration ถูกฝังเป็น Embedded Resource
 - ตรวจว่า route และ URL action ตรงกับ Controller
 - ตรวจว่าไม่มี reference ไปยังไฟล์หรือ Controller ที่ถูกลบ
+
+## 11. Local Configuration
+
+- เก็บค่าร่วมที่ไม่เป็นความลับไว้ใน `appsettings.json`
+- เก็บ password, connection string เฉพาะเครื่อง และ secret ไว้ใน `appsettings.Development.json`
+- ห้าม commit `appsettings.Development.json` หรือ `appsettings.Local.json`
+- ถ้าต้องการ override ค่าในเครื่อง ให้ใช้ชื่อ key เดิมในไฟล์ Development เช่น:
+
+```json
+{
+  "ConnectionStrings": {
+	"DefaultConnection": "Server=localhost;Database=NewBornDb;User Id=sa;Password=local-password;TrustServerCertificate=True;Encrypt=False"
+  }
+}
+```
+
+- ASP.NET Core จะโหลดค่า Development ทับค่าจาก `appsettings.json` อัตโนมัติเมื่อรันใน Development

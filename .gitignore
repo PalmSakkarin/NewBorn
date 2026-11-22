@@ -11,6 +11,10 @@
 *.sln.docstates
 *.env
 
+# Local ASP.NET Core settings with developer-specific secrets
+Project-NewBorn/appsettings.Development.json
+Project-NewBorn/appsettings.Local.json
+
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 
