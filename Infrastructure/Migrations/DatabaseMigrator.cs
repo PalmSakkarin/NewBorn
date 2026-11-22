@@ -17,7 +17,12 @@ public static class DatabaseMigrator
         using var reader = new StreamReader(scriptStream);
         string script = await reader.ReadToEndAsync(cancellationToken);
 
-        await using var connection = new SqlConnection(connectionString);
+        var masterConnectionBuilder = new SqlConnectionStringBuilder(connectionString)
+        {
+            InitialCatalog = "master"
+        };
+
+        await using var connection = new SqlConnection(masterConnectionBuilder.ConnectionString);
         await connection.OpenAsync(cancellationToken);
         string[] batches = Regex.Split(script, @"^\s*GO\s*$", RegexOptions.Multiline | RegexOptions.IgnoreCase);
 

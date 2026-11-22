@@ -12,8 +12,6 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 string defaultConnection = builder.Configuration.GetConnectionString("DefaultConnection")
     ?? throw new InvalidOperationException("ConnectionStrings:DefaultConnection is not configured.");
-string masterConnection = builder.Configuration.GetConnectionString("MasterConnection")
-    ?? throw new InvalidOperationException("ConnectionStrings:MasterConnection is not configured.");
 
 builder.Services.AddSingleton(new SqlConnectionFactory(defaultConnection));
 builder.Services.AddSingleton<IPasswordHasher, PasswordHasher>();
@@ -22,7 +20,7 @@ builder.Services.AddScoped<ILoginService, LoginService>();
 
 var app = builder.Build();
 
-await DatabaseMigrator.ApplyAsync(masterConnection);
+await DatabaseMigrator.ApplyAsync(defaultConnection);
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
