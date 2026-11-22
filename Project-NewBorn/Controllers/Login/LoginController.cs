@@ -1,10 +1,10 @@
 using Microsoft.AspNetCore.Mvc;
-using NewBorn.Application.DTOs;
-using NewBorn.Application.Interfaces.Services;
+using NewBorn.Application.DTOs.Login;
+using NewBorn.Application.Interfaces.Services.Login;
 using Project_NewBorn.Models;
 using System.Diagnostics;
 
-namespace Project_NewBorn.Controllers;
+namespace Project_NewBorn.Controllers.Login;
 
 public sealed class LoginController : Controller
 {

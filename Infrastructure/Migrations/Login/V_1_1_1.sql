@@ -1,4 +1,4 @@
-﻿-- ===start migration V_1_1_1 LoginUsers===
+﻿-- ===start Create LoginUsers Table===
 IF DB_ID(N'NewBornDb') IS NULL
 BEGIN
     EXEC(N'CREATE DATABASE [NewBornDb]');
@@ -46,4 +46,4 @@ END;
 
 ALTER TABLE dbo.LoginUsers
     ADD CONSTRAINT DF_LoginUsers_Created DEFAULT DATEADD(HOUR, 7, SYSUTCDATETIME()) FOR Created;
--- ===end migration V_1_1_1 LoginUsers===
+-- ===end Create LoginUsers Table===

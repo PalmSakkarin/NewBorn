@@ -1,9 +1,9 @@
 using Microsoft.Data.SqlClient;
-using NewBorn.Application.Interfaces.Repositories;
-using NewBorn.Domain.Entities;
-using NewBorn.Infrastructure.Data;
+using NewBorn.Application.Interfaces.Repositories.Login;
+using NewBorn.Domain.Entities.Login;
+using NewBorn.Infrastructure.Data.Common;
 
-namespace NewBorn.Infrastructure.Repositories;
+namespace NewBorn.Infrastructure.Repositories.Login;
 
 public sealed class LoginRepository : ILoginRepository
 {

@@ -1,4 +1,4 @@
-namespace NewBorn.Domain.Entities;
+namespace NewBorn.Domain.Entities.Login;
 
 public sealed class LoginUser
 {

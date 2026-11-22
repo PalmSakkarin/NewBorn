@@ -10,22 +10,38 @@
 NewBorn/
 ├── Application/
 │   ├── DTOs/
+│   │   └── Login/
+│   │       └── LoginRequest.cs
 │   ├── Helpers/
+│   │   └── Common/
 │   ├── Interfaces/
+│   │   ├── Repositories/
+│   │   │   └── Login/
+│   │   └── Services/
+│   │       └── Login/
 │   └── Services/
+│       └── Login/
 ├── Domain/
 │   ├── Entities/
+│   │   └── Login/
 │   └── NewBorn.Domain.csproj
 ├── Infrastructure/
 │   ├── Data/
+│   │   └── Common/
 │   ├── Migrations/
+│   │   └── Login/
 │   └── Repositories/
+│       └── Login/
 └── Project-NewBorn/
 	├── Controllers/
+	│   └── Login/
 	├── Views/
+	│   └── Login/
 	└── wwwroot/
 		├── css/
+		│   └── Login/
 		└── js/
+			└── Login/
 ```
 
 ## 3. Layer Responsibilities
@@ -37,7 +53,7 @@ NewBorn/
 
 ## 4. Migration Convention
 
-- เก็บไฟล์ไว้ที่ `Infrastructure/Migrations/`
+- เก็บไฟล์ไว้ที่ `Infrastructure/Migrations/<Feature>/`
 - ตั้งชื่อ migration เป็น version เช่น `V_1_1_1.sql`
 - ทุก migration ต้องมี comment เปิดและปิดเฉพาะในไฟล์ migration
 
@@ -71,7 +87,7 @@ NewBorn/
 }
 ```
 
-- Controller อยู่ที่ `Project-NewBorn/Controllers/LoginController.cs`
+- Controller อยู่ที่ `Project-NewBorn/Controllers/Login/LoginController.cs`
 - การบันทึกข้อมูลให้เรียกผ่าน Application service และ repository
 
 ## 6. Password Storage

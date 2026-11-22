@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace NewBorn.Application.DTOs;
+namespace NewBorn.Application.DTOs.Login;
 
 public sealed class LoginRequest
 {

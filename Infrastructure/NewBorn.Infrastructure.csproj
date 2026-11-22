@@ -7,19 +7,26 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="ExternalServices\**" />
+    <Compile Remove="Identity\**" />
+    <EmbeddedResource Remove="ExternalServices\**" />
+    <EmbeddedResource Remove="Identity\**" />
+    <None Remove="ExternalServices\**" />
+    <None Remove="Identity\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Application\NewBorn.Application.csproj" />
     <ProjectReference Include="..\Domain\NewBorn.Domain.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Data.SqlClient" Version="6.1.2" />
-    <EmbeddedResource Include="Migrations\V_1_1_1.sql" />
+    <EmbeddedResource Include="Migrations\Login\V_1_1_1.sql" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Data\Configurations\" />
-    <Folder Include="Identity\" />
-    <Folder Include="ExternalServices\" />
     <Folder Include="Security\" />
   </ItemGroup>
 

@@ -1,6 +1,6 @@
 using System.Security.Cryptography;
 
-namespace NewBorn.Application.Helpers;
+namespace NewBorn.Application.Helpers.Common;
 
 public sealed class PasswordHasher : IPasswordHasher
 {

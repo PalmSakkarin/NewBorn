@@ -1,10 +1,10 @@
-using NewBorn.Application.Helpers;
-using NewBorn.Application.Interfaces.Repositories;
-using NewBorn.Application.Interfaces.Services;
-using NewBorn.Application.Services;
-using NewBorn.Infrastructure.Data;
+using NewBorn.Application.Helpers.Common;
+using NewBorn.Application.Interfaces.Repositories.Login;
+using NewBorn.Application.Interfaces.Services.Login;
+using NewBorn.Application.Services.Login;
+using NewBorn.Infrastructure.Data.Common;
 using NewBorn.Infrastructure.Migrations;
-using NewBorn.Infrastructure.Repositories;
+using NewBorn.Infrastructure.Repositories.Login;
 
 var builder = WebApplication.CreateBuilder(args);
 

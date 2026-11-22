@@ -1,4 +1,4 @@
-namespace NewBorn.Application.Helpers;
+namespace NewBorn.Application.Helpers.Common;
 
 public interface IPasswordHasher
 {

@@ -1,6 +1,6 @@
-using NewBorn.Application.DTOs;
+using NewBorn.Application.DTOs.Login;
 
-namespace NewBorn.Application.Interfaces.Services;
+namespace NewBorn.Application.Interfaces.Services.Login;
 
 public interface ILoginService
 {

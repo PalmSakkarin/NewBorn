@@ -1,10 +1,10 @@
-using NewBorn.Application.DTOs;
-using NewBorn.Application.Helpers;
-using NewBorn.Application.Interfaces.Repositories;
-using NewBorn.Application.Interfaces.Services;
-using NewBorn.Domain.Entities;
+using NewBorn.Application.DTOs.Login;
+using NewBorn.Application.Helpers.Common;
+using NewBorn.Application.Interfaces.Repositories.Login;
+using NewBorn.Application.Interfaces.Services.Login;
+using NewBorn.Domain.Entities.Login;
 
-namespace NewBorn.Application.Services;
+namespace NewBorn.Application.Services.Login;
 
 public sealed class LoginService : ILoginService
 {
