@@ -1,3 +1,21 @@
 ﻿body {
     color: #333;
 }
+
+#login-app {
+    max-width: 360px;
+    margin: 40px auto;
+}
+
+#login-app div {
+    margin-bottom: 12px;
+}
+
+#login-app input {
+    display: block;
+    width: 100%;
+}
+
+#login-message {
+    min-height: 1.5em;
+}

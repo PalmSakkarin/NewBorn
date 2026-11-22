@@ -12,21 +12,21 @@
     <link rel="stylesheet" href="~/css/Login/Login.css" />
 </head>
 <body>
-    <main>
+    <main id="login-app">
         <h1>Login</h1>
-        <form>
-            <div>
-                <label for="username">Username</label>
-                <input id="username" name="username" type="text" />
-            </div>
-            <div>
-                <label for="password">Password</label>
-                <input id="password" name="password" type="password" />
-            </div>
-            <button type="button">Login</button>
-        </form>
+        <div>
+            <label for="username">Username</label>
+            <input id="username" name="username" type="text" />
+        </div>
+        <div>
+            <label for="password">Password</label>
+            <input id="password" name="password" type="password" />
+        </div>
+        <button id="login-submit" type="button">Login</button>
+        <p id="login-message" role="status"></p>
     </main>
 
+    <script>const createLoginUrl = '@Url.Action("Create", "Login")';</script>
     <script src="~/js/Login/Login.js"></script>
 </body>
 </html>
