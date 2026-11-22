@@ -3,6 +3,7 @@ IF DB_ID(N'NewBornDb') IS NULL
 BEGIN
     EXEC(N'CREATE DATABASE [NewBornDb]');
 END;
+GO
 
 USE [NewBornDb];
 

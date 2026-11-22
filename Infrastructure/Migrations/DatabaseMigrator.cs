@@ -1,4 +1,5 @@
 using Microsoft.Data.SqlClient;
+using System.Text.RegularExpressions;
 
 namespace NewBorn.Infrastructure.Migrations;
 
@@ -18,7 +19,17 @@ public static class DatabaseMigrator
 
         await using var connection = new SqlConnection(connectionString);
         await connection.OpenAsync(cancellationToken);
-        await using var command = new SqlCommand(script, connection);
-        await command.ExecuteNonQueryAsync(cancellationToken);
+        string[] batches = Regex.Split(script, @"^\s*GO\s*$", RegexOptions.Multiline | RegexOptions.IgnoreCase);
+
+        foreach (string batch in batches)
+        {
+            if (string.IsNullOrWhiteSpace(batch))
+            {
+                continue;
+            }
+
+            await using var command = new SqlCommand(batch, connection);
+            await command.ExecuteNonQueryAsync(cancellationToken);
+        }
     }
 }
