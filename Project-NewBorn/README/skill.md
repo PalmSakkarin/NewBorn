@@ -104,8 +104,9 @@ salt.hash
 
 ## 7. Date and Time
 
-- ค่า `Created` ใช้เวลา UTC+7
-- ให้คำนวณจาก UTC เช่น `DateTime.UtcNow.AddHours(7)`
+- ค่า `Createdate` และ `Updatedate` ใช้เวลา UTC+7
+- ค่า `Createdateutc` และ `Updatedateutc` ใช้เวลา UTC
+- ให้คำนวณค่าทั้งสองชุดจาก UTC เดียวกัน
 
 ## 8. Naming
 

@@ -21,11 +21,15 @@ public sealed class LoginService : ILoginService
     {
         ArgumentNullException.ThrowIfNull(request);
 
+        DateTime createdateUtc = DateTime.UtcNow;
         var user = new LoginUser
         {
             Username = request.Username.Trim(),
             Password = _passwordHasher.Hash(request.Password),
-            Created = DateTime.UtcNow.AddHours(7)
+            CreatedateUtc = createdateUtc,
+            UpdatedateUtc = createdateUtc,
+            Createdate = createdateUtc.AddHours(7),
+            Updatedate = createdateUtc.AddHours(7)
         };
 
         return _loginRepository.CreateAsync(user, cancellationToken);

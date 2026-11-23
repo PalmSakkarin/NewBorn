@@ -17,15 +17,22 @@ public sealed class LoginRepository : ILoginRepository
     public async Task CreateAsync(LoginUser user, CancellationToken cancellationToken = default)
     {
         const string sql = """
-            INSERT INTO dbo.LoginUsers (Username, [Password], Created)
-            VALUES (@Username, @Password, @Created);
+            INSERT INTO dbo.[User]
+                (Username, [Password], Createdate, Updatedate, Createby, Updateby, Createdateutc, Updatedateutc)
+            VALUES
+                (@Username, @Password, @Createdate, @Updatedate, @Createby, @Updateby, @CreatedateUtc, @UpdatedateUtc);
             """;
 
         await using SqlConnection connection = _connectionFactory.Create();
         await using var command = new SqlCommand(sql, connection);
         command.Parameters.Add("@Username", System.Data.SqlDbType.NVarChar, 100).Value = user.Username;
         command.Parameters.Add("@Password", System.Data.SqlDbType.NVarChar, 200).Value = user.Password;
-        command.Parameters.Add("@Created", System.Data.SqlDbType.DateTime2).Value = user.Created;
+        command.Parameters.Add("@Createdate", System.Data.SqlDbType.DateTime2).Value = user.Createdate;
+        command.Parameters.Add("@Updatedate", System.Data.SqlDbType.DateTime2).Value = user.Updatedate;
+        command.Parameters.Add("@Createby", System.Data.SqlDbType.NVarChar, 100).Value = (object?)user.Createby ?? DBNull.Value;
+        command.Parameters.Add("@Updateby", System.Data.SqlDbType.NVarChar, 100).Value = (object?)user.Updateby ?? DBNull.Value;
+        command.Parameters.Add("@CreatedateUtc", System.Data.SqlDbType.DateTime2).Value = user.CreatedateUtc;
+        command.Parameters.Add("@UpdatedateUtc", System.Data.SqlDbType.DateTime2).Value = user.UpdatedateUtc;
 
         await connection.OpenAsync(cancellationToken);
         await command.ExecuteNonQueryAsync(cancellationToken);

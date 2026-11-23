@@ -22,7 +22,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Data.SqlClient" Version="6.1.2" />
-    <EmbeddedResource Include="Migrations\Login\V_1_1_1.sql" />
+    <EmbeddedResource Include="Migrations\v_1_1_1.sql" />
   </ItemGroup>
 
   <ItemGroup>

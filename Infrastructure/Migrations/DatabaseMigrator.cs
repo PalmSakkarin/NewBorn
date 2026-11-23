@@ -9,7 +9,7 @@ public static class DatabaseMigrator
     {
         string resourceName = typeof(DatabaseMigrator).Assembly
             .GetManifestResourceNames()
-            .Single(name => name.EndsWith("V_1_1_1.sql", StringComparison.Ordinal));
+            .Single(name => name.EndsWith("v_1_1_1.sql", StringComparison.OrdinalIgnoreCase));
 
         await using Stream scriptStream = typeof(DatabaseMigrator).Assembly
             .GetManifestResourceStream(resourceName)
