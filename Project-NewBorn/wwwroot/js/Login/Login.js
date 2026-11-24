@@ -2,13 +2,12 @@
     const form = document.getElementById('loginForm');
     const user = document.getElementById('Username');
     const pass = document.getElementById('Password');
-    const error = document.getElementById('loginError');
-    const message = document.getElementById('loginMessage');
     const button = document.getElementById('loginBtn');
     const toggle = document.getElementById('togglePw');
 
-    if (!form || !user || !pass || !error || !message || !button || !toggle ||
-        typeof createLoginUrl !== 'string' || createLoginUrl.length === 0) {
+    if (!form || !user || !pass || !button || !toggle ||
+        typeof createLoginUrl !== 'string' || createLoginUrl.length === 0 ||
+        typeof AlertService === 'undefined') {
         return;
     }
 
@@ -20,7 +19,7 @@
 
     function showError(input, text) {
         input.classList.add('is-invalid');
-        error.textContent = text;
+        AlertService.error(text);
         input.focus();
     }
 
@@ -28,8 +27,6 @@
         event.preventDefault();
         user.classList.remove('is-invalid');
         pass.classList.remove('is-invalid');
-        error.textContent = '';
-        message.textContent = '';
 
         const username = user.value.trim();
         const password = pass.value;
@@ -45,6 +42,7 @@
 
         button.disabled = true;
         button.textContent = 'กำลังบันทึกข้อมูล...';
+        AlertService.loading('กำลังบันทึกข้อมูล...');
 
         try {
             const response = await fetch(createLoginUrl, {
@@ -58,10 +56,12 @@
                 throw new Error(result.message || 'ไม่สามารถบันทึกข้อมูลได้');
             }
 
-            message.textContent = result.message || 'บันทึกข้อมูลผู้ใช้ลงฐานข้อมูลแล้ว';
+            AlertService.close();
+            await AlertService.success(result.message || 'บันทึกข้อมูลผู้ใช้ลงฐานข้อมูลแล้ว');
             form.reset();
         } catch (requestError) {
-            error.textContent = requestError.message || 'ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์ได้';
+            AlertService.close();
+            await AlertService.error(requestError.message || 'ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์ได้');
         } finally {
             button.disabled = false;
             button.textContent = 'เข้าสู่ระบบ';
