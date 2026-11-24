@@ -90,7 +90,7 @@
     stroke-dasharray: 700;
     stroke-dashoffset: 700;
     opacity: .8;
-    animation: nb-draw 2.4s ease-out .3s forwards;
+    animation: nb-draw 5s ease-out infinite;
 }
 
 @keyframes nb-draw {
@@ -152,6 +152,8 @@
     background-color: var(--field);
     border: 1.5px solid transparent;
     border-radius: 14px;
+    user-select: text;
+    -webkit-user-select: text;
 }
 
 .nb-form .form-control::placeholder {

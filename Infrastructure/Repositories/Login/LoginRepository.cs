@@ -14,27 +14,38 @@ public sealed class LoginRepository : ILoginRepository
         _connectionFactory = connectionFactory;
     }
 
-    public async Task CreateAsync(LoginUser user, CancellationToken cancellationToken = default)
+    public async Task<LoginUser?> FindByUsernameAsync(string username, CancellationToken cancellationToken = default)
     {
         const string sql = """
-            INSERT INTO dbo.[User]
-                (Username, [Password], Createdate, Updatedate, Createby, Updateby, Createdateutc, Updatedateutc)
-            VALUES
-                (@Username, @Password, @Createdate, @Updatedate, @Createby, @Updateby, @CreatedateUtc, @UpdatedateUtc);
+            SELECT TOP (1)
+                Id, Username, Password, Createdate, Updatedate,
+                Createby, Updateby, Createdateutc, Updatedateutc
+            FROM dbo.[User]
+            WHERE 1=1 AND Username = @Username;
             """;
 
         await using SqlConnection connection = _connectionFactory.Create();
         await using var command = new SqlCommand(sql, connection);
-        command.Parameters.Add("@Username", System.Data.SqlDbType.NVarChar, 100).Value = user.Username;
-        command.Parameters.Add("@Password", System.Data.SqlDbType.NVarChar, 200).Value = user.Password;
-        command.Parameters.Add("@Createdate", System.Data.SqlDbType.DateTime2).Value = user.Createdate;
-        command.Parameters.Add("@Updatedate", System.Data.SqlDbType.DateTime2).Value = user.Updatedate;
-        command.Parameters.Add("@Createby", System.Data.SqlDbType.NVarChar, 100).Value = (object?)user.Createby ?? DBNull.Value;
-        command.Parameters.Add("@Updateby", System.Data.SqlDbType.NVarChar, 100).Value = (object?)user.Updateby ?? DBNull.Value;
-        command.Parameters.Add("@CreatedateUtc", System.Data.SqlDbType.DateTime2).Value = user.CreatedateUtc;
-        command.Parameters.Add("@UpdatedateUtc", System.Data.SqlDbType.DateTime2).Value = user.UpdatedateUtc;
+        command.Parameters.Add("@Username", System.Data.SqlDbType.NVarChar, 100).Value = username;
 
         await connection.OpenAsync(cancellationToken);
-        await command.ExecuteNonQueryAsync(cancellationToken);
+        await using var reader = await command.ExecuteReaderAsync(cancellationToken);
+        if (!await reader.ReadAsync(cancellationToken))
+        {
+            return null;
+        }
+
+        return new LoginUser
+        {
+            Id = reader.GetInt32(0),
+            Username = reader.GetString(1),
+            Password = reader.GetString(2),
+            Createdate = reader.GetDateTime(3),
+            Updatedate = reader.GetDateTime(4),
+            Createby = reader.IsDBNull(5) ? null : reader.GetString(5),
+            Updateby = reader.IsDBNull(6) ? null : reader.GetString(6),
+            CreatedateUtc = reader.GetDateTime(7),
+            UpdatedateUtc = reader.GetDateTime(8)
+        };
     }
 }

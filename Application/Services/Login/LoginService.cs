@@ -2,6 +2,7 @@ using NewBorn.Application.DTOs.Login;
 using NewBorn.Application.Helpers.Common;
 using NewBorn.Application.Interfaces.Repositories.Login;
 using NewBorn.Application.Interfaces.Services.Login;
+using NewBorn.Application.Mappings.Login;
 using NewBorn.Domain.Entities.Login;
 
 namespace NewBorn.Application.Services.Login;
@@ -17,21 +18,17 @@ public sealed class LoginService : ILoginService
         _passwordHasher = passwordHasher;
     }
 
-    public Task CreateAsync(LoginRequest request, CancellationToken cancellationToken = default)
+    public async Task<AuthenticatedUser?> AuthenticateAsync(LoginRequest request, CancellationToken cancellationToken = default)
     {
         ArgumentNullException.ThrowIfNull(request);
 
-        DateTime createdateUtc = DateTime.UtcNow;
-        var user = new LoginUser
+        string username = request.Username.Trim();
+        LoginUser? user = await _loginRepository.FindByUsernameAsync(username, cancellationToken);
+        if (user is null || !_passwordHasher.Verify(request.Password, user.Password))
         {
-            Username = request.Username.Trim(),
-            Password = _passwordHasher.Hash(request.Password),
-            CreatedateUtc = createdateUtc,
-            UpdatedateUtc = createdateUtc,
-            Createdate = createdateUtc.AddHours(7),
-            Updatedate = createdateUtc.AddHours(7)
-        };
+            return null;
+        }
 
-        return _loginRepository.CreateAsync(user, cancellationToken);
+        return user.ToAuthenticatedUser();
     }
 }

@@ -12,14 +12,18 @@ The web project uses MVC pattern with Razor Views.
 Project-NewBorn/
 ├── Project-NewBorn/              # Main web project
 │   ├── Controllers/              # รับ HTTP request และเลือก View/response
+│   │   ├── Dashboard/            # หน้าที่ต้องผ่านการยืนยันตัวตน
+│   │   └── Login/                # Login และ Logout
 │   ├── Models/                   # View models และ data models ที่ใช้กับหน้าเว็บ
 │   ├── Views/                    # Razor pages สำหรับแสดงผล HTML
 │   │   ├── Home/                 # หน้าทั่วไป เช่น Index และ Privacy
 │   │   ├── Login/                # หน้า Login
+│   │   ├── Dashboard/            # หน้า Dashboard ที่มี [Authorize]
 │   │   └── Shared/               # Layout, error page และ shared partials
 │   ├── wwwroot/                  # Static files ที่ browser เข้าถึงได้โดยตรง
 │   │   ├── css/                  # Stylesheets
 │   │   ├── js/                   # Client-side JavaScript
+│   │   │   └── Common/            # JavaScript ที่ใช้ร่วมกัน เช่น AlertService
 │   │   └── lib/                  # Front-end libraries เช่น Bootstrap และ jQuery
 │   ├── Program.cs                # Application startup และ routing configuration
 │   ├── appsettings.json          # Application configuration
@@ -67,8 +71,8 @@ Add dedicated request/view models here when the login flow becomes functional.
 
 #### `Views/Login/Login.cshtml`
 
-หน้า Login แบบโครงสร้างพื้นฐาน มี username, password และปุ่ม Login
-Minimal login page. It uses `Layout = null` so it does not include the shared navbar/footer.
+หน้า Login ที่ตรวจสอบผู้ใช้กับฐานข้อมูลและสร้าง Authentication Cookie เมื่อสำเร็จ
+It uses `Layout = null` so it does not include the shared navbar/footer.
 
 The page loads:
 
@@ -122,7 +126,8 @@ Static web assets served directly to the browser.
 
 ### JavaScript
 
-- `js/Login/Login.js` — JavaScript ของหน้า Login ตอนนี้ใช้ `console.log` เพื่อทดสอบการโหลดไฟล์
+- `js/Login/Login.js` — ส่ง Login request, แสดงสถานะที่ปุ่ม และจัดการ Error Popup
+- `js/Common/AlertService.js` — SweetAlert2 service กลางสำหรับ success, error, warning, info และ confirm
 - `js/site.js` — shared site script จาก template ปัจจุบันยังไม่มี logic
 
 ### `lib/`
@@ -157,6 +162,15 @@ There are currently two domain projects. Confirm which one is canonical before r
 การเชื่อมต่อฐานข้อมูล, logging และ external service implementations.
 Contains infrastructure implementations such as repositories and logging.
 
+## Authentication and authorization
+
+- `LoginController` Query ผู้ใช้จาก `dbo.[User]` และตรวจสอบ PBKDF2 password hash โดยไม่ Insert ตอน Login
+- Login สำเร็จจะสร้าง Cookie ชื่อ `NewBorn.Auth`
+- หน้าที่ต้อง Login ใช้ `[Authorize]` เช่น `DashboardController`
+- เปิด URL ที่ต้อง Login โดยตรงจะถูกส่งไป `/Login?ReturnUrl=...`
+- Logout ล้าง Cookie และทำให้ URL เดิมกลับไปหน้า Login
+- Login request ใช้ Anti-forgery token และตรวจสอบ `returnUrl` ว่าเป็น local URL ก่อน Redirect
+
 ## Web references and cleanup notes
 
 - แก้ path ใน `_Layout.cshtml` จาก `~/css/site.css` เป็น `~/css/Style/site.css` ให้ตรงกับไฟล์จริงแล้ว
@@ -169,7 +183,7 @@ Contains infrastructure implementations such as repositories and logging.
 
 ## Recommended next steps
 
-1. เพิ่ม Login view model และ POST action เมื่อเริ่มทำ login จริง
+1. เพิ่ม Role/Permission claims เมื่อเริ่มกำหนดสิทธิ์ผู้ใช้
 2. เลือก domain project หลักระหว่าง `Domain/` และ `NewBorn.Domain/`
 3. ลบ template files ที่ไม่ใช้หลังจากกำหนดหน้าและ flow จริงแล้ว
 4. เพิ่ม README usage เช่น วิธี run project และ URL ที่ใช้ทดสอบ

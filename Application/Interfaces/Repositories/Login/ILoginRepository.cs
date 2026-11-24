@@ -4,5 +4,5 @@ namespace NewBorn.Application.Interfaces.Repositories.Login;
 
 public interface ILoginRepository
 {
-    Task CreateAsync(LoginUser user, CancellationToken cancellationToken = default);
+    Task<LoginUser?> FindByUsernameAsync(string username, CancellationToken cancellationToken = default);
 }

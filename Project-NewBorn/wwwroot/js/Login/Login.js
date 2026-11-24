@@ -4,8 +4,9 @@
     const pass = document.getElementById('Password');
     const button = document.getElementById('loginBtn');
     const toggle = document.getElementById('togglePw');
+    const antiforgeryToken = document.querySelector('input[name="__RequestVerificationToken"]');
 
-    if (!form || !user || !pass || !button || !toggle ||
+    if (!form || !user || !pass || !button || !toggle || !antiforgeryToken ||
         typeof createLoginUrl !== 'string' || createLoginUrl.length === 0 ||
         typeof AlertService === 'undefined') {
         return;
@@ -35,32 +36,27 @@
             return;
         }
 
-        if (password.length < 6 || password.length > 200) {
-            showError(pass, 'รหัสผ่านต้องมีความยาว 6-200 ตัวอักษร');
-            return;
-        }
-
         button.disabled = true;
-        button.textContent = 'กำลังบันทึกข้อมูล...';
-        AlertService.loading('กำลังบันทึกข้อมูล...');
+        button.textContent = 'กำลังตรวจสอบ...';
 
         try {
             const response = await fetch(createLoginUrl, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: {
+                    'Content-Type': 'application/json',
+                    'RequestVerificationToken': antiforgeryToken.value
+                },
+                credentials: 'same-origin',
                 body: JSON.stringify({ username, password })
             });
             const result = await response.json();
 
             if (!response.ok) {
-                throw new Error(result.message || 'ไม่สามารถบันทึกข้อมูลได้');
+                throw new Error(result.message || 'ไม่สามารถเข้าสู่ระบบได้');
             }
 
-            AlertService.close();
-            await AlertService.success(result.message || 'บันทึกข้อมูลผู้ใช้ลงฐานข้อมูลแล้ว');
-            form.reset();
+            window.location.assign(result.redirectUrl || '/Dashboard');
         } catch (requestError) {
-            AlertService.close();
             await AlertService.error(requestError.message || 'ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์ได้');
         } finally {
             button.disabled = false;

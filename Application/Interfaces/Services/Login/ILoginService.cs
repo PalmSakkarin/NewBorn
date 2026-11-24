@@ -4,5 +4,5 @@ namespace NewBorn.Application.Interfaces.Services.Login;
 
 public interface ILoginService
 {
-    Task CreateAsync(LoginRequest request, CancellationToken cancellationToken = default);
+    Task<AuthenticatedUser?> AuthenticateAsync(LoginRequest request, CancellationToken cancellationToken = default);
 }

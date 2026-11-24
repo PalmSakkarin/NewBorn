@@ -25,6 +25,7 @@
                 </div>
 
                 <form id="loginForm" novalidate class="nb-form">
+                    @Html.AntiForgeryToken()
                     <div class="mb-3">
                         <label for="Username" class="form-label">ชื่อผู้ใช้</label>
                         <div class="nb-input">
@@ -37,7 +38,7 @@
                         <label for="Password" class="form-label">รหัสผ่าน</label>
                         <div class="nb-input">
                             <svg class="nb-ic" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2.5" /><path d="M8 11V8a4 4 0 0 1 8 0v3" /></svg>
-                            <input id="Password" name="Password" type="password" class="form-control nb-pw" placeholder="Password" autocomplete="current-password" required minlength="6" maxlength="200" />
+                            <input id="Password" name="Password" type="password" class="form-control nb-pw" placeholder="Password" autocomplete="current-password" required />
                             <button type="button" class="nb-eye" id="togglePw" aria-label="แสดงรหัสผ่าน">
                                 <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z" /><circle cx="12" cy="12" r="3" /></svg>
                             </button>
@@ -54,7 +55,8 @@
     </div>
 
     <script>
-        const createLoginUrl = '@Url.Action("Create", "Login")';
+        const returnUrl = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(ViewData["ReturnUrl"] ?? ""));
+        const createLoginUrl = '@Url.Action("Create", "Login")' + (returnUrl ? `?returnUrl=${encodeURIComponent(returnUrl)}` : '');
     </script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="~/js/Common/AlertService.js" asp-append-version="true"></script>
