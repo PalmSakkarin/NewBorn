@@ -21,6 +21,14 @@ public sealed class LoginController : Controller
     [HttpPost]
     public async Task<IActionResult> Create([FromBody] LoginRequest request, CancellationToken cancellationToken)
     {
+        if (request is null || !ModelState.IsValid)
+        {
+            return BadRequest(new
+            {
+                success = false,
+                message = "กรุณาตรวจสอบชื่อผู้ใช้และรหัสผ่าน"
+            });
+        }
 
         await _loginService.CreateAsync(request, cancellationToken);
 

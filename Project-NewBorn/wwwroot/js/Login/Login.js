@@ -1,48 +1,75 @@
 ﻿(() => {
-    const app = document.getElementById('login-app');
+    const form = document.getElementById('loginForm');
+    const user = document.getElementById('Username');
+    const pass = document.getElementById('Password');
+    const error = document.getElementById('loginError');
+    const message = document.getElementById('loginMessage');
+    const button = document.getElementById('loginBtn');
+    const toggle = document.getElementById('togglePw');
 
-    if (!app || typeof createLoginUrl !== 'string' || createLoginUrl.length === 0) {
+    if (!form || !user || !pass || !error || !message || !button || !toggle ||
+        typeof createLoginUrl !== 'string' || createLoginUrl.length === 0) {
         return;
     }
 
-    const usernameInput = document.getElementById('username');
-    const passwordInput = document.getElementById('password');
-    const submitButton = document.getElementById('login-submit');
-    const message = document.getElementById('login-message');
+    toggle.addEventListener('click', () => {
+        const hidden = pass.type === 'password';
+        pass.type = hidden ? 'text' : 'password';
+        toggle.setAttribute('aria-label', hidden ? 'ซ่อนรหัสผ่าน' : 'แสดงรหัสผ่าน');
+    });
 
-    submitButton.addEventListener('click', async () => {
-        const username = usernameInput.value.trim();
-        const password = passwordInput.value;
+    function showError(input, text) {
+        input.classList.add('is-invalid');
+        error.textContent = text;
+        input.focus();
+    }
 
-        console.log('username => ', username);
-        console.log('password => ', password);
-        if (!username || !password) {
-            message.textContent = 'กรุณากรอก username และ password';
+    form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        user.classList.remove('is-invalid');
+        pass.classList.remove('is-invalid');
+        error.textContent = '';
+        message.textContent = '';
+
+        const username = user.value.trim();
+        const password = pass.value;
+        if (username.length < 3 || username.length > 100) {
+            showError(user, 'ชื่อผู้ใช้ต้องมีความยาว 3-100 ตัวอักษร');
             return;
         }
 
-        submitButton.disabled = true;
-        message.textContent = 'กำลังบันทึกข้อมูล...';
+        if (password.length < 6 || password.length > 200) {
+            showError(pass, 'รหัสผ่านต้องมีความยาว 6-200 ตัวอักษร');
+            return;
+        }
+
+        button.disabled = true;
+        button.textContent = 'กำลังบันทึกข้อมูล...';
 
         try {
             const response = await fetch(createLoginUrl, {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ username, password })
             });
             const result = await response.json();
 
-            message.textContent = result.message ?? 'ไม่สามารถบันทึกข้อมูลได้';
-            if (response.ok) {
-                usernameInput.value = '';
-                passwordInput.value = '';
+            if (!response.ok) {
+                throw new Error(result.message || 'ไม่สามารถบันทึกข้อมูลได้');
             }
-        } catch {
-            message.textContent = 'ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์ได้';
+
+            message.textContent = result.message || 'บันทึกข้อมูลผู้ใช้ลงฐานข้อมูลแล้ว';
+            form.reset();
+        } catch (requestError) {
+            error.textContent = requestError.message || 'ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์ได้';
         } finally {
-            submitButton.disabled = false;
+            button.disabled = false;
+            button.textContent = 'เข้าสู่ระบบ';
         }
+    });
+
+    window.addEventListener('pageshow', () => {
+        button.disabled = false;
+        button.textContent = 'เข้าสู่ระบบ';
     });
 })();

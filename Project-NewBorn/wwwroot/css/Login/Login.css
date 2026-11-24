@@ -1,21 +1,279 @@
-﻿body {
-    color: #333;
+﻿:root {
+    --p700: #6E50C9;
+    --p500: #8C72DE;
+    --p100: #E9E3FA;
+    --bg1: #FBF9FF;
+    --bg2: #F0EBFB;
+    --card: #FFFFFF;
+    --text: #241A40;
+    --muted: #6C6285;
+    --field: #F4F0FD;
+    --line: #DAD1F0;
+    --err: #B3261E;
+    --success: #287A4B;
 }
 
-#login-app {
-    max-width: 360px;
-    margin: 40px auto;
+@media (prefers-color-scheme: dark) {
+    :root {
+        --bg1: #1C1236;
+        --bg2: #2E1C5E;
+        --card: #281A4A;
+        --text: #F1EBFF;
+        --muted: #B8ACD6;
+        --field: #1F1440;
+        --line: #4A3A82;
+        --err: #FF8A80;
+        --p500: #9A7BEA;
+    }
 }
 
-#login-app div {
-    margin-bottom: 12px;
+.nb-body {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: calc(24px + env(safe-area-inset-top, 0px)) 16px calc(24px + env(safe-area-inset-bottom, 0px));
+    color: var(--text);
+    font-family: "IBM Plex Sans Thai", system-ui, sans-serif;
+    background: linear-gradient(135deg, var(--bg1), var(--bg2));
 }
 
-#login-app input {
+.nb-shell {
+    width: 100%;
+    max-width: 400px;
+}
+
+.nb-card {
+    overflow: hidden;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 24px;
+    box-shadow: 0 24px 48px -30px rgba(43, 23, 99, .35);
+}
+
+.nb-head {
+    position: relative;
+    height: 190px;
+    padding: 32px 32px 0;
+    color: #fff;
+    background: linear-gradient(150deg, #9078DD, #7358CC);
+}
+
+.nb-head h1 {
+    position: relative;
+    margin: 0;
+    font-size: 30px;
+    font-weight: 600;
+    line-height: 1.2;
+}
+
+.nb-head p {
+    position: relative;
+    margin: 6px 0 0;
+    font-size: 15px;
+}
+
+.nb-ecg {
+    position: absolute;
+    right: 0;
+    bottom: 34px;
+    left: 0;
+    width: 100%;
+    height: 46px;
+}
+
+.nb-ecg path {
+    fill: none;
+    stroke: #DCD0FA;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-dasharray: 700;
+    stroke-dashoffset: 700;
+    opacity: .8;
+    animation: nb-draw 2.4s ease-out .3s forwards;
+}
+
+@keyframes nb-draw {
+    to {
+        stroke-dashoffset: 0;
+    }
+}
+
+.nb-wave {
+    position: absolute;
+    right: 0;
+    bottom: -1px;
+    left: 0;
     display: block;
     width: 100%;
+    height: 34px;
 }
 
-#login-message {
-    min-height: 1.5em;
+.nb-wave path {
+    fill: var(--card);
+}
+
+.nb-form {
+    padding: 20px 32px 28px;
+}
+
+.nb-form .form-label {
+    margin-bottom: 6px;
+    color: var(--text);
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.nb-input {
+    position: relative;
+}
+
+.nb-ic {
+    position: absolute;
+    top: 50%;
+    left: 14px;
+    width: 20px;
+    height: 20px;
+    transform: translateY(-50%);
+    stroke: var(--p500);
+    fill: none;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    pointer-events: none;
+}
+
+.nb-form .form-control {
+    height: 50px;
+    padding: 0 16px 0 44px;
+    color: var(--text);
+    font-family: inherit;
+    font-size: 16px;
+    background-color: var(--field);
+    border: 1.5px solid transparent;
+    border-radius: 14px;
+}
+
+.nb-form .form-control::placeholder {
+    color: var(--muted);
+    opacity: .75;
+}
+
+.nb-form .form-control:focus {
+    color: var(--text);
+    background-color: var(--field);
+    border-color: var(--p500);
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--p500) 24%, transparent);
+}
+
+.nb-form .form-control.is-invalid {
+    background-image: none;
+    border-color: var(--err);
+}
+
+.nb-form .nb-pw {
+    padding-right: 50px;
+}
+
+.nb-eye {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    display: grid;
+    width: 38px;
+    height: 38px;
+    place-items: center;
+    padding: 0;
+    cursor: pointer;
+    background: transparent;
+    border: 0;
+    border-radius: 10px;
+}
+
+.nb-eye:hover {
+    background: var(--p100);
+}
+
+.nb-eye svg {
+    width: 20px;
+    height: 20px;
+    stroke: var(--muted);
+    fill: none;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.nb-eye:focus-visible,
+.nb-btn:focus-visible {
+    outline: 3px solid var(--p500);
+    outline-offset: 2px;
+}
+
+.nb-err,
+.nb-success {
+    min-height: 20px;
+    margin: -4px 0 10px;
+    font-size: 14px;
+}
+
+.nb-err {
+    color: var(--err);
+}
+
+.nb-success {
+    color: var(--success);
+}
+
+.nb-btn {
+    width: 100%;
+    height: 52px;
+    color: #fff;
+    font: inherit;
+    font-size: 17px;
+    font-weight: 600;
+    cursor: pointer;
+    background: linear-gradient(90deg, var(--p700), var(--p500));
+    border: 0;
+    border-radius: 26px;
+    box-shadow: 0 12px 22px -12px var(--p700);
+    transition: transform .1s, filter .15s;
+}
+
+.nb-btn:hover {
+    filter: brightness(1.08);
+}
+
+.nb-btn:active {
+    transform: scale(.99);
+}
+
+.nb-btn[disabled] {
+    cursor: wait;
+    opacity: .75;
+}
+
+.nb-foot {
+    margin: 16px 0 0;
+    color: var(--muted);
+    font-size: 12.5px;
+    line-height: 1.7;
+    text-align: center;
+}
+
+@media (max-width: 380px) {
+    .nb-head {
+        padding: 28px 24px 0;
+    }
+
+    .nb-form {
+        padding: 16px 24px 24px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .nb-ecg path {
+        animation: none;
+        stroke-dashoffset: 0;
+    }
 }
