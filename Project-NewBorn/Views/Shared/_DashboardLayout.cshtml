@@ -1,0 +1,68 @@
+@{
+    var username = User.Identity?.Name ?? "ผู้ใช้งาน";
+    var avatar = username.Length > 0 ? username[..1] : "ผ";
+    var pageTitle = ViewData["Title"]?.ToString() ?? "หน้าแรก";
+}
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Newborn | @pageTitle</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600&display=swap" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/Dashboard/Dashboard.css" asp-append-version="true" />
+</head>
+<body>
+    <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+        <symbol id="i-home" viewBox="0 0 24 24"><path d="M3 11l9-8 9 8v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z" /></symbol>
+        <symbol id="i-baby" viewBox="0 0 24 24"><circle cx="12" cy="13" r="8" /><path d="M12 5c-1-2.5 2.5-3 2-.5M9 13h.01M15 13h.01M10 16.5q2 1.5 4 0" /></symbol>
+        <symbol id="i-clip" viewBox="0 0 24 24"><rect x="6" y="4" width="12" height="17" rx="2" /><path d="M9 4h6v3H9zM9 12h6M9 16h4" /></symbol>
+        <symbol id="i-cal" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2" /><path d="M3 10h18M8 3v4M16 3v4" /></symbol>
+        <symbol id="i-chart" viewBox="0 0 24 24"><path d="M5 20V11M11 20V4M17 20v-6M2 20h20" /></symbol>
+        <symbol id="i-users" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5" /><path d="M2.5 20c0-3.5 3-6 6.5-6s6.5 2.5 6.5 6M16 5a3.5 3.5 0 0 1 0 6.5M18 14c2.2.8 3.5 3 3.5 6" /></symbol>
+        <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z" /><path d="M9 12l2 2 4-4" /></symbol>
+        <symbol id="i-db" viewBox="0 0 24 24"><ellipse cx="12" cy="6" rx="8" ry="3" /><path d="M4 6v6c0 1.7 3.6 3 8 3s8-1.3 8-3V6M4 12v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6" /></symbol>
+        <symbol id="i-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3" /><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9L7 7M17 17l2.1 2.1M4.9 19.1L7 17M17 7l2.1-2.1" /></symbol>
+        <symbol id="i-out" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9" /></symbol>
+        <symbol id="i-go" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6" /></symbol>
+        <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16" /></symbol>
+    </svg>
+
+    <aside class="side" id="side" aria-label="เมนูหลัก">
+        <div class="sbrand"><div class="logo">N</div><div class="bt">Newborn</div></div>
+        <nav class="snav" id="nav"></nav>
+        <div class="sfoot">
+            <form id="logoutForm" asp-controller="Login" asp-action="Logout" method="post">
+                @Html.AntiForgeryToken()
+                <button class="item" id="logout" type="submit" title="ออกจากระบบ"><svg class="ico"><use href="#i-out"></use></svg><span>ออกจากระบบ</span></button>
+            </form>
+        </div>
+    </aside>
+
+    <div class="main">
+        <header class="top d-flex align-items-center gap-3">
+            <button class="burger" id="burger" type="button" aria-label="ย่อหรือขยายเมนู" aria-expanded="true" aria-controls="side"><svg class="ico"><use href="#i-menu"></use></svg></button>
+            <h1 id="title" class="flex-grow-1">@pageTitle</h1>
+            <div class="user d-flex align-items-center gap-2">
+                <div class="uname">@username<small>เจ้าหน้าที่</small></div>
+                <div class="ava" aria-hidden="true">@avatar</div>
+            </div>
+        </header>
+        <main class="content" id="view">@RenderBody()</main>
+    </div>
+
+    <div class="scrim" id="scrim"></div>
+    <script>
+        window.dashboardUserName = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(username));
+        window.dashboardPageTitle = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(pageTitle));
+    </script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="~/js/Common/AlertService.js" asp-append-version="true"></script>
+    <script src="~/js/Dashboard/Dashboard.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

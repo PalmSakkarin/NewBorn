@@ -1,11 +1,4 @@
 @{
-    ViewData["Title"] = "Dashboard";
+    ViewData["Title"] = "หน้าแรก";
+    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
 }
-
-<h1>Dashboard</h1>
-<p>เข้าสู่ระบบในชื่อ: <strong>@User.Identity?.Name</strong></p>
-
-<form asp-controller="Login" asp-action="Logout" method="post">
-    @Html.AntiForgeryToken()
-    <button type="submit" class="btn btn-danger">ออกจากระบบ</button>
-</form>

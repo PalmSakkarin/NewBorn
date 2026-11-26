@@ -14,18 +14,44 @@
     <link rel="stylesheet" href="~/css/Login/Login.css" />
 </head>
 <body class="nb-body">
-    <div class="container d-flex justify-content-center">
-        <div class="nb-shell">
-            <div class="nb-card">
-                <div class="nb-head">
-                    <h1>Newborn</h1>
+    <div class="container-fluid p-0">
+        <div class="row g-0 nb-row">
+            <aside class="col-lg-6 nb-brand">
+                <div class="nb-copy">
+                    <div class="nb-mark">Newborn</div>
                     <p>ระบบติดตามข้อมูลทารกแรกเกิด</p>
-                    <svg class="nb-ecg" viewBox="0 0 400 46" preserveAspectRatio="none" aria-hidden="true"><path d="M0 26 H120 L134 26 L146 6 L160 40 L172 26 H250 L260 26 L270 14 L280 26 H400" /></svg>
-                    <svg class="nb-wave" viewBox="0 0 400 34" preserveAspectRatio="none" aria-hidden="true"><path d="M0 34 V18 C90 -2 200 -2 290 14 C335 22 370 24 400 20 V34 Z" /></svg>
                 </div>
+                <div class="nb-art" aria-hidden="true">
+                    <svg class="nb-baby" viewBox="0 0 300 320">
+                        <g class="nb-react"><g class="nb-float">
+                            <g class="nb-head">
+                                <circle cx="60" cy="168" r="15" fill="#FFF4CC" /><circle cx="240" cy="168" r="15" fill="#FFF4CC" />
+                                <circle cx="150" cy="160" r="92" fill="#FFF4CC" />
+                                <path class="nb-tuft" d="M148 70C132 44 164 30 158 52" fill="none" stroke="#FFC400" stroke-width="7" stroke-linecap="round" />
+                                <ellipse class="nb-cheek" cx="98" cy="192" rx="16" ry="10" fill="#FFC400" opacity=".6" />
+                                <ellipse class="nb-cheek" cx="202" cy="192" rx="16" ry="10" fill="#FFC400" opacity=".6" />
+                                <path class="nb-eyes" d="M104 158q14 14 28 0M168 158q14 14 28 0" fill="none" stroke="#111" stroke-width="6" stroke-linecap="round" />
+                                <path class="nb-mouth" d="M138 190q12 12 24 0" fill="none" stroke="#111" stroke-width="6" stroke-linecap="round" />
+                            </g>
+                            <g class="nb-hand">
+                                <ellipse cx="118" cy="160" rx="32" ry="24" fill="#FFF4CC" stroke="#111" stroke-width="4" />
+                                <path d="M102 152v12M118 148v16M134 152v12" fill="none" stroke="#E3D39B" stroke-width="3" stroke-linecap="round" />
+                            </g>
+                            <g class="nb-hand">
+                                <ellipse cx="182" cy="160" rx="32" ry="24" fill="#FFF4CC" stroke="#111" stroke-width="4" />
+                                <path d="M166 152v12M182 148v16M198 152v12" fill="none" stroke="#E3D39B" stroke-width="3" stroke-linecap="round" />
+                            </g>
+                        </g></g>
+                    </svg>
+                </div>
+            </aside>
 
+            <main class="col-lg-6 nb-pane">
                 <form id="loginForm" novalidate class="nb-form">
                     @Html.AntiForgeryToken()
+                    <h2>เข้าสู่ระบบ</h2>
+                    <p class="nb-sub">กรอกชื่อผู้ใช้และรหัสผ่านของคุณ</p>
+
                     <div class="mb-3">
                         <label for="Username" class="form-label">ชื่อผู้ใช้</label>
                         <div class="nb-input">
@@ -45,12 +71,10 @@
                         </div>
                     </div>
 
-                    <div class="nb-err" id="loginError" role="alert"></div>
-                    <div class="nb-success" id="loginMessage" role="status"></div>
                     <button type="submit" class="nb-btn" id="loginBtn">เข้าสู่ระบบ</button>
-                    <p class="nb-foot">© 2026 ชื่อองค์กรของคุณ<br />เวอร์ชัน 1.0.0</p>
+                    <p class="nb-foot">© 2026 ชื่อองค์กรของคุณ · เวอร์ชัน 1.0.0</p>
                 </form>
-            </div>
+            </main>
         </div>
     </div>
 

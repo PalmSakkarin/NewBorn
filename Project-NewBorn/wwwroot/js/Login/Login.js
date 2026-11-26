@@ -1,4 +1,5 @@
 ﻿(() => {
+    const body = document.body;
     const form = document.getElementById('loginForm');
     const user = document.getElementById('Username');
     const pass = document.getElementById('Password');
@@ -12,16 +13,33 @@
         return;
     }
 
+    const updateBaby = () => {
+        const hide = document.activeElement === pass && pass.type === 'password';
+        body.classList.toggle('is-hiding', hide);
+    };
+
+    pass.addEventListener('focus', updateBaby);
+    pass.addEventListener('blur', updateBaby);
+
     toggle.addEventListener('click', () => {
         const hidden = pass.type === 'password';
         pass.type = hidden ? 'text' : 'password';
         toggle.setAttribute('aria-label', hidden ? 'ซ่อนรหัสผ่าน' : 'แสดงรหัสผ่าน');
+        updateBaby();
     });
+
+    const shake = () => {
+        body.classList.remove('is-no');
+        void body.offsetWidth;
+        body.classList.add('is-no');
+        window.setTimeout(() => body.classList.remove('is-no'), 600);
+    };
 
     function showError(input, text) {
         input.classList.add('is-invalid');
         AlertService.error(text);
         input.focus();
+        shake();
     }
 
     form.addEventListener('submit', async (event) => {
@@ -33,6 +51,10 @@
         const password = pass.value;
         if (username.length < 3 || username.length > 100) {
             showError(user, 'ชื่อผู้ใช้ต้องมีความยาว 3-100 ตัวอักษร');
+            return;
+        }
+        if (!password) {
+            showError(pass, 'กรอกรหัสผ่านก่อนเข้าสู่ระบบ');
             return;
         }
 
@@ -67,5 +89,6 @@
     window.addEventListener('pageshow', () => {
         button.disabled = false;
         button.textContent = 'เข้าสู่ระบบ';
+        updateBaby();
     });
 })();
