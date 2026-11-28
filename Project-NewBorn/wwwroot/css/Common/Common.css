@@ -1,0 +1,49 @@
+:root {
+    color-scheme: light;
+    --y: #FFC400;
+    --yd: #E6A800;
+    --ink: #111111;
+    --cream: #FFF4CC;
+    --bg: #FAF9F5;
+    --card: #FFFFFF;
+    --tx: #1A1A18;
+    --mu: #5E5E58;
+    --line: #E4E1D5;
+    --hc: #FFC400;
+    --field: #FFFFFF;
+    --err: #B3261E;
+    --blue: #1D4ED8;
+    --blue-bg: #E7EEFF;
+    --green: #15803D;
+    --green-d: #116A33;
+    --green-bg: #DCF5E4;
+    --orange: #E8590C;
+    --teal: #0E7C86;
+    --red: #B91C1C;
+    --red-bg: #FDE8E8;
+    --slate: #475569;
+    --off: #BDBBB0;
+    --sw: 264px;
+}
+
+html, body { margin: 0; min-height: 100%; }
+body { font-family: "IBM Plex Sans Thai", system-ui, sans-serif; font-size: 17px; background: var(--bg); color: var(--tx); line-height: 1.5; }
+button { font: inherit; color: inherit; }
+.ico { width: 22px; height: 22px; flex: none; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.form-control:focus, .form-select:focus { border-color: var(--y); box-shadow: 0 0 0 .25rem rgba(255,196,0,.25); }
+.btn-nb { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 38px; padding: .375rem .75rem; border: 0; border-radius: 26px; background: var(--y); color: #111; font-size: 1rem; line-height: 1.5; font-weight: 600; cursor: pointer; transition: background-color .15s, border-color .15s, color .15s; }
+.btn-nb:hover { background: var(--yd); }
+.btn-nb:focus-visible, .btn-ol:focus-visible { outline: 3px solid var(--y); outline-offset: 2px; }
+.btn-ol { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 38px; padding: .375rem .75rem; border: 1.5px solid #B9B5A6; border-radius: 26px; background: transparent; color: var(--tx); font-size: 1rem; line-height: 1.5; font-weight: 600; cursor: pointer; transition: background-color .15s, border-color .15s, color .15s; }
+.btn-ol:hover { background: var(--y); border-color: var(--y); color: #111; }
+.btn-ol:disabled { opacity: .4; cursor: not-allowed; }
+.btn-green { background: var(--green); color: #fff; }
+.btn-green:hover { background: var(--green-d); color: #fff; }
+.btn-red { background: var(--red-bg); border-color: var(--red-bg); color: var(--red); }
+.btn-red:hover { background: var(--red); border-color: var(--red); color: #fff; }
+.btn-blue { background: var(--blue-bg); border-color: var(--blue-bg); color: var(--blue); }
+.btn-blue:hover { background: var(--blue); border-color: var(--blue); color: #fff; }
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+}

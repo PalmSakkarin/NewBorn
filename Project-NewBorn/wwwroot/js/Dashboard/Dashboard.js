@@ -13,89 +13,100 @@ const MENU = {
     ]
 };
 
-const BABY = '<svg class="baby" viewBox="40 20 220 250" aria-hidden="true"><g class="fl"><g class="hd">' +
-    '<circle cx="60" cy="168" r="15" fill="#FFF4CC" stroke="#111" stroke-width="5"/><circle cx="240" cy="168" r="15" fill="#FFF4CC" stroke="#111" stroke-width="5"/>' +
-    '<circle cx="150" cy="160" r="92" fill="#FFF4CC" stroke="#111" stroke-width="5"/><path class="tf" d="M148 70C132 44 164 30 158 52" fill="none" stroke="#111" stroke-width="7" stroke-linecap="round"/>' +
-    '<ellipse class="ck" cx="98" cy="192" rx="16" ry="10" fill="#FFA000" opacity=".6"/><ellipse class="ck" cx="202" cy="192" rx="16" ry="10" fill="#FFA000" opacity=".6"/>' +
-    '<path class="ey" d="M104 158q14 14 28 0M168 158q14 14 28 0" fill="none" stroke="#111" stroke-width="6" stroke-linecap="round"/>' +
-    '<path class="mo" d="M138 190q12 12 24 0" fill="none" stroke="#111" stroke-width="6" stroke-linecap="round"/></g></g></svg>';
+(function () {
+    'use strict';
 
-const nav = document.getElementById('nav');
-const view = document.getElementById('view');
-const title = document.getElementById('title');
-const body = document.body;
-const burger = document.getElementById('burger');
-const logoutForm = document.getElementById('logoutForm');
+    var nav = document.getElementById('nav');
+    var view = document.getElementById('view');
+    var title = document.getElementById('title');
+    var body = document.body;
+    var burger = document.getElementById('burger');
+    var logoutForm = document.getElementById('logoutForm');
+    var homeTemplate = document.getElementById('dashboardHomeTemplate');
+    var placeholderTemplate = document.getElementById('dashboardPlaceholderTemplate');
 
-function ico(name) { return '<svg class="ico" aria-hidden="true"><use href="#i-' + name + '"></use></svg>'; }
-function navItem(menu) { return '<a class="item" href="#" data-p="' + menu.t + '" data-i="' + menu.i + '" title="' + menu.t + '">' + ico(menu.i) + '<span>' + menu.t + '</span></a>'; }
-function renderNav() {
-    nav.innerHTML = '<a class="item" href="#" data-p="หน้าแรก" data-i="home" title="หน้าแรก" aria-current="page">' + ico('home') + '<span>หน้าแรก</span></a>' +
-        '<div class="grp"><span>เมนูหลัก</span></div>' + MENU.main.map(navItem).join('') +
-        '<div class="grp"><span>ตั้งค่า</span></div>' + MENU.set.map(navItem).join('');
-}
-function cards(list, className) {
-    return '<div class="cgrid">' + list.map(function (menu) {
-        return '<a class="mcard" href="#" data-p="' + menu.t + '" data-i="' + menu.i + '">' +
-            '<svg class="ico go" aria-hidden="true"><use href="#i-go"></use></svg>' +
-            '<div class="cic ' + className + '">' + ico(menu.i) + '</div><h3>' + menu.t + '</h3><p>' + menu.d + '</p></a>';
-    }).join('') + '</div>';
-}
-function home() {
-    view.innerHTML = '<section class="hero d-flex align-items-center justify-content-between gap-3"><div><h2>สวัสดี ' + window.dashboardUserName + '</h2><p>เลือกเมนูที่ต้องการใช้งานได้เลย</p></div>' + BABY + '</section>' +
-        '<div class="sec">เมนูหลัก</div>' + cards(MENU.main, '') + '<div class="sec">ตั้งค่า</div>' + cards(MENU.set, 'set');
-}
-function go(name, icon) {
-    title.textContent = name;
-    document.title = 'Newborn | ' + name;
-    nav.querySelectorAll('.item').forEach(function (item) {
-        if (item.dataset.p === name) item.setAttribute('aria-current', 'page');
-        else item.removeAttribute('aria-current');
+    function updateActiveItem(name) {
+        nav.querySelectorAll('.item[data-p]').forEach(function (item) {
+            if (item.dataset.p === name) item.setAttribute('aria-current', 'page');
+            else item.removeAttribute('aria-current');
+        });
+    }
+
+    function showHome() {
+        view.replaceChildren(homeTemplate.content.cloneNode(true));
+        view.querySelector('#dashboardGreetingName').textContent = window.dashboardUserName || '';
+    }
+
+    function showPlaceholder(name, iconName) {
+        view.replaceChildren(placeholderTemplate.content.cloneNode(true));
+        view.querySelector('#placeholderTitle').textContent = name;
+        view.querySelector('#placeholderIcon').setAttribute('href', '#i-' + iconName);
+    }
+
+    function go(name, iconName) {
+        if (name === 'จัดการผู้ใช้') {
+            window.location.assign('/Users');
+            return;
+        }
+
+        title.textContent = name;
+        document.title = 'Newborn | ' + name;
+        updateActiveItem(name);
+        if (name === 'หน้าแรก') showHome();
+        else showPlaceholder(name, iconName);
+        closeDrawer();
+        window.scrollTo(0, 0);
+    }
+
+    function wide() { return window.matchMedia('(min-width: 992px)').matches; }
+    function closeDrawer() {
+        body.classList.remove('drawer');
+        burger.setAttribute('aria-expanded', String(wide() ? !body.classList.contains('collapsed') : false));
+    }
+    function saveState(value) {
+        try { localStorage.setItem('nbSide', value); } catch { }
+    }
+
+    document.addEventListener('click', function (event) {
+        var target = event.target.closest('[data-p]');
+        if (!target || target.getAttribute('href') !== '#') return;
+        event.preventDefault();
+        if (!homeTemplate || !placeholderTemplate) {
+            window.location.assign('/Dashboard');
+            return;
+        }
+        go(target.dataset.p, target.dataset.i);
     });
-    if (name === 'หน้าแรก') home();
-    else view.innerHTML = '<div class="empty"><div class="cic">' + ico(icon) + '</div><h2>' + name + '</h2><p>หน้านี้เป็นตัวอย่าง ยังไม่มีเนื้อหา</p><button class="btn-nb" type="button" data-p="หน้าแรก" data-i="home">กลับหน้าแรก</button></div>';
-    closeDrawer();
-    window.scrollTo(0, 0);
-}
-function wide() { return window.matchMedia('(min-width: 992px)').matches; }
-function closeDrawer() {
-    body.classList.remove('drawer');
-    burger.setAttribute('aria-expanded', String(wide() ? !body.classList.contains('collapsed') : false));
-}
-function saveState(value) { try { localStorage.setItem('nbSide', value); } catch { } }
+    burger.addEventListener('click', function () {
+        if (wide()) {
+            var collapsed = body.classList.toggle('collapsed');
+            burger.setAttribute('aria-expanded', String(!collapsed));
+            saveState(collapsed ? '1' : '0');
+        } else {
+            var open = body.classList.toggle('drawer');
+            burger.setAttribute('aria-expanded', String(open));
+        }
+    });
+    document.getElementById('scrim').addEventListener('click', closeDrawer);
+    document.addEventListener('keydown', function (event) { if (event.key === 'Escape') closeDrawer(); });
+    window.matchMedia('(min-width: 992px)').addEventListener('change', function () {
+        body.classList.remove('drawer');
+        closeDrawer();
+    });
+    try {
+        if (localStorage.getItem('nbSide') === '1' && wide()) body.classList.add('collapsed');
+    } catch { }
 
-document.addEventListener('click', function (event) {
-    const target = event.target.closest('[data-p]');
-    if (!target) return;
-    event.preventDefault();
-    go(target.dataset.p, target.dataset.i);
-});
-burger.addEventListener('click', function () {
-    if (wide()) {
-        const collapsed = body.classList.toggle('collapsed');
-        burger.setAttribute('aria-expanded', String(!collapsed));
-        saveState(collapsed ? '1' : '0');
-    } else {
-        const open = body.classList.toggle('drawer');
-        burger.setAttribute('aria-expanded', String(open));
-    }
-});
-document.getElementById('scrim').addEventListener('click', closeDrawer);
-document.addEventListener('keydown', function (event) { if (event.key === 'Escape') closeDrawer(); });
-window.matchMedia('(min-width: 992px)').addEventListener('change', function () { body.classList.remove('drawer'); closeDrawer(); });
-try { if (localStorage.getItem('nbSide') === '1' && wide()) body.classList.add('collapsed'); } catch { }
+    logoutForm.addEventListener('submit', async function (event) {
+        event.preventDefault();
+        if (typeof AlertService === 'undefined') {
+            logoutForm.submit();
+            return;
+        }
+        var result = await AlertService.confirm('คุณต้องการออกจากระบบหรือไม่?', 'ยืนยันการออกจากระบบ');
+        if (result.isConfirmed) logoutForm.submit();
+    });
 
-logoutForm.addEventListener('submit', async function (event) {
-    event.preventDefault();
-
-    if (typeof AlertService === 'undefined') {
-        logoutForm.submit();
-        return;
-    }
-
-    const result = await AlertService.confirm('คุณต้องการออกจากระบบหรือไม่?', 'ยืนยันการออกจากระบบ');
-    if (result.isConfirmed) logoutForm.submit();
-});
-
-renderNav();
-if (window.dashboardPageTitle === 'หน้าแรก') home();
+    updateActiveItem(window.dashboardPageTitle || 'หน้าแรก');
+    if (window.dashboardPageTitle === 'หน้าแรก') showHome();
+})();

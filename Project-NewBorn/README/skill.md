@@ -1,5 +1,15 @@
 # NewBorn Project Skill
 
+## 0. Required AI reading order
+
+ก่อนเริ่มงานทุกครั้ง AI ทุก model ต้องอ่านเอกสารต่อไปนี้ให้ครบ:
+
+1. `AGENTS.md`
+2. `CLAUDE.md`
+3. `README/skill.md` (ไฟล์นี้)
+
+Claude ต้องอ่าน `CLAUDE.md` เช่นเดียวกับ AI model อื่น ๆ และต้องอ่าน `AGENTS.md` กับไฟล์ skill นี้ด้วยเสมอ ห้ามเลือกอ่านเฉพาะเอกสารที่ตรงกับชื่อ model
+
 ## 1. Purpose
 
 เอกสารแนวทางสำหรับพัฒนาโปรเจกต์ NewBorn ให้โครงสร้างและรูปแบบการทำงานสอดคล้องกัน
@@ -168,6 +178,7 @@ salt.hash
 - ตรวจว่า migration ถูกฝังเป็น Embedded Resource
 - ตรวจว่า route และ URL action ตรงกับ Controller
 - ตรวจว่าไม่มี reference ไปยังไฟล์หรือ Controller ที่ถูกลบ
+- ก่อน build ให้จัดรูปแบบไฟล์ C#, Razor, CSS และ JavaScript ของทุกหน้า แล้วจึงรัน build ตามขั้นตอนใน `README/UI-Standard.md`
 
 ## 14. Local Configuration
 

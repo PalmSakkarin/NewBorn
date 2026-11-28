@@ -1,0 +1,170 @@
+@{
+    ViewData["Title"] = "จัดการผู้ใช้";
+    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/Users/Users.css" asp-append-version="true" />
+}
+
+<div class="users-page">
+    <section class="users-list-card nb-list-card" id="userListPage">
+        <div class="row g-3 align-items-center ubar nb-list-toolbar">
+            <div class="usearch nb-list-search col-12 col-md-10">
+                <label class="visually-hidden" for="uq">ค้นหาผู้ใช้</label>
+                <input class="form-control" id="uq" type="search" placeholder="ค้นหาชื่อหรือ Username" autocomplete="off">
+            </div>
+            <div class="col-12 col-md-2">
+                <button class="btn-nb btn-green w-100" id="uAdd" type="button">
+                    <svg class="ico" aria-hidden="true"><use href="#i-plus"></use></svg>
+                    เพิ่มผู้ใช้
+                </button>
+            </div>
+        </div>
+
+        <p class="ucount nb-list-count" id="uCount" aria-live="polite"></p>
+
+        <div class="uwrap nb-table-wrap" id="uWrap">
+            <table class="utable nb-table">
+                <thead>
+                    <tr>
+                        <th class="c-no" scope="col">#</th>
+                        <th scope="col">ชื่อ-นามสกุล</th>
+                        <th scope="col">Username</th>
+                        <th scope="col">สถานะ</th>
+                        <th class="c-act" scope="col">จัดการ</th>
+                    </tr>
+                </thead>
+                <tbody id="uList"></tbody>
+            </table>
+        </div>
+
+        <div id="uEmpty"></div>
+
+        <div class="pagination-bar nb-pagination" id="pagination">
+            <label class="page-size-label nb-page-size" for="pageSize">
+                แสดง
+                <select class="form-select" id="pageSize">
+                    <option value="10" selected>10</option>
+                    <option value="20">20</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                </select>
+                รายการ
+            </label>
+            <div class="page-controls nb-page-controls">
+                <button type="button" class="page-btn nb-page-button" id="previousPage" aria-label="หน้าก่อนหน้า">ก่อนหน้า</button>
+                <span id="pageInfo" aria-live="polite"></span>
+                <button type="button" class="page-btn nb-page-button" id="nextPage" aria-label="หน้าถัดไป">ถัดไป</button>
+            </div>
+        </div>
+    </section>
+
+    <div id="userDetailPage" hidden></div>
+</div>
+
+<!-- Row template for user list -->
+<template id="userRowTemplate">
+    <tr class="urow">
+        <td class="c-no" data-row-number data-hide-mobile></td>
+        <td class="c-nm">
+            <span class="un"><a href="#" data-edit></a></span>
+        </td>
+        <td class="c-un" data-username></td>
+        <td class="c-st"><span class="pill" data-status></span></td>
+        <td class="c-act" data-actions>
+            <button type="button" class="act nb-table-action" data-edit>
+                <svg class="ico" aria-hidden="true"><use href="#i-edit"></use></svg>
+                <span>แก้ไข</span>
+            </button>
+            <button type="button" class="act del nb-table-action is-danger" data-delete>
+                <svg class="ico" aria-hidden="true"><use href="#i-trash"></use></svg>
+                <span>ลบ</span>
+            </button>
+        </td>
+    </tr>
+</template>
+
+<!-- Empty state template -->
+<template id="userEmptyTemplate">
+    <div class="empty uempty nb-empty">
+        <div class="cic">
+            <svg class="ico" aria-hidden="true"><use href="#i-search"></use></svg>
+        </div>
+        <h2>ไม่พบผู้ใช้ที่ค้นหา</h2>
+        <p>ลองค้นหาด้วยชื่อหรือ Username อื่น</p>
+    </div>
+</template>
+
+<!-- Detail template for user info -->
+<template id="userDetailTemplate">
+    <form class="detail-form" id="userDetailForm" novalidate>
+        <div class="detail-grid">
+            <section class="panel">
+                <div class="sec">รูปโปรไฟล์</div>
+                <div class="phwrap">
+                    <span class="uav xl" role="img" aria-label="รูปโปรไฟล์">
+                        <svg class="ico profile-placeholder" aria-hidden="true"><use href="#i-user"></use></svg>
+                        <img class="profile-img" alt="" hidden>
+                    </span>
+                    <div class="profile-actions">
+                        <button type="button" class="btn-ol btn-blue" id="uploadPhoto">
+                            <svg class="ico" aria-hidden="true"><use href="#i-upload"></use></svg>
+                            อัปโหลดรูป
+                        </button>
+                        <button type="button" class="btn-ol btn-red" id="deletePhoto">
+                            <svg class="ico" aria-hidden="true"><use href="#i-trash"></use></svg>
+                            ลบรูป
+                        </button>
+                    </div>
+                    <input type="file" id="photoFile" accept="image/jpeg,image/png,image/webp,image/gif" hidden>
+                    <p class="hint">รองรับ JPG, PNG, WebP หรือ GIF ขนาดไม่เกิน 2 MB</p>
+                    <div class="ferr" id="photoError" role="alert"></div>
+                </div>
+                <hr class="divl">
+                <label class="swrow form-switch" for="isActive">
+                    <span>
+                        <strong>เปิดใช้งานบัญชี</strong>
+                        <small id="activeText"></small>
+                    </span>
+                    <input type="checkbox" class="form-check-input sw" id="isActive" role="switch">
+                </label>
+            </section>
+
+            <section class="panel">
+                <div class="sec">ข้อมูลบัญชี</div>
+                <div class="fld">
+                    <label for="firstName">ชื่อ</label>
+                    <input class="form-control" id="firstName" required>
+                    <div class="ferr" id="firstError" role="alert"></div>
+                </div>
+                <div class="fld">
+                    <label for="lastName">นามสกุล</label>
+                    <input class="form-control" id="lastName" required>
+                    <div class="ferr" id="lastError" role="alert"></div>
+                </div>
+                <div class="fld">
+                    <label for="username">Username</label>
+                    <input class="form-control" id="username" autocapitalize="none" spellcheck="false" required>
+                    <div class="hint">ใช้ภาษาอังกฤษ ตัวเลข . _ - ยาว 3-20 ตัว</div>
+                    <div class="ferr" id="usernameError" role="alert"></div>
+                </div>
+            </section>
+        </div>
+
+        <div class="uact">
+            <button type="button" class="btn-ol" id="detailBack">
+                <svg class="ico" aria-hidden="true"><use href="#i-back"></use></svg>
+                กลับ
+            </button>
+            <button type="submit" class="btn-nb btn-green">
+                <svg class="ico" aria-hidden="true"><use href="#i-check"></use></svg>
+                บันทึก
+            </button>
+        </div>
+    </form>
+</template>
+
+@section Scripts {
+    <script src="~/js/Users/Users.js" asp-append-version="true"></script>
+}

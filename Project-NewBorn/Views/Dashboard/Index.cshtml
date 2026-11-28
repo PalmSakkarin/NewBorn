@@ -2,3 +2,36 @@
     ViewData["Title"] = "หน้าแรก";
     Layout = "~/Views/Shared/_DashboardLayout.cshtml";
 }
+
+<template id="dashboardHomeTemplate">
+    <section class="hero d-flex align-items-center justify-content-between gap-3">
+        <div><h2>สวัสดี <span id="dashboardGreetingName"></span></h2><p>เลือกเมนูที่ต้องการใช้งานได้เลย</p></div>
+        <svg class="baby" viewBox="40 20 220 250" aria-hidden="true">
+            <g class="fl"><g class="hd">
+                <circle cx="60" cy="168" r="15" fill="#FFF4CC" stroke="#111" stroke-width="5" /><circle cx="240" cy="168" r="15" fill="#FFF4CC" stroke="#111" stroke-width="5" />
+                <circle cx="150" cy="160" r="92" fill="#FFF4CC" stroke="#111" stroke-width="5" /><path class="tf" d="M148 70C132 44 164 30 158 52" fill="none" stroke="#111" stroke-width="7" stroke-linecap="round" />
+                <ellipse class="ck" cx="98" cy="192" rx="16" ry="10" fill="#FFA000" opacity=".6" /><ellipse class="ck" cx="202" cy="192" rx="16" ry="10" fill="#FFA000" opacity=".6" />
+                <path class="ey" d="M104 158q14 14 28 0M168 158q14 14 28 0" fill="none" stroke="#111" stroke-width="6" stroke-linecap="round" />
+                <path class="mo" d="M138 190q12 12 24 0" fill="none" stroke="#111" stroke-width="6" stroke-linecap="round" />
+            </g></g>
+        </svg>
+    </section>
+    <div class="sec">เมนูหลัก</div>
+    <div class="cgrid">
+        <a class="mcard" href="#" data-p="ทะเบียนทารก" data-i="baby"><svg class="ico go" aria-hidden="true"><use href="#i-go"></use></svg><div class="cic"><svg class="ico"><use href="#i-baby"></use></svg></div><h3>ทะเบียนทารก</h3><p>ลงทะเบียนและค้นหาข้อมูลทารกแรกเกิด</p></a>
+        <a class="mcard" href="#" data-p="บันทึกการตรวจ" data-i="clip"><svg class="ico go" aria-hidden="true"><use href="#i-go"></use></svg><div class="cic"><svg class="ico"><use href="#i-clip"></use></svg></div><h3>บันทึกการตรวจ</h3><p>บันทึกผลการตรวจและการดูแลรายวัน</p></a>
+        <a class="mcard" href="#" data-p="นัดหมายและติดตาม" data-i="cal"><svg class="ico go" aria-hidden="true"><use href="#i-go"></use></svg><div class="cic"><svg class="ico"><use href="#i-cal"></use></svg></div><h3>นัดหมายและติดตาม</h3><p>ดูตารางนัดและติดตามผลต่อเนื่อง</p></a>
+        <a class="mcard" href="#" data-p="รายงาน" data-i="chart"><svg class="ico go" aria-hidden="true"><use href="#i-go"></use></svg><div class="cic"><svg class="ico"><use href="#i-chart"></use></svg></div><h3>รายงาน</h3><p>สรุปและส่งออกรายงานตามช่วงเวลา</p></a>
+    </div>
+    <div class="sec">ตั้งค่า</div>
+    <div class="cgrid">
+        <a class="mcard" href="/Users" data-p="จัดการผู้ใช้" data-i="users"><svg class="ico go" aria-hidden="true"><use href="#i-go"></use></svg><div class="cic"><svg class="ico"><use href="#i-users"></use></svg></div><h3>จัดการผู้ใช้</h3><p>เพิ่ม แก้ไข และปิดการใช้งานบัญชี</p></a>
+        <a class="mcard" href="#" data-p="สิทธิ์การใช้งาน" data-i="shield"><svg class="ico go" aria-hidden="true"><use href="#i-go"></use></svg><div class="cic"><svg class="ico"><use href="#i-shield"></use></svg></div><h3>สิทธิ์การใช้งาน</h3><p>กำหนดบทบาทและสิทธิ์เข้าถึงเมนู</p></a>
+        <a class="mcard" href="#" data-p="ข้อมูลหลัก" data-i="db"><svg class="ico go" aria-hidden="true"><use href="#i-go"></use></svg><div class="cic"><svg class="ico"><use href="#i-db"></use></svg></div><h3>ข้อมูลหลัก</h3><p>จัดการรายการอ้างอิงที่ใช้ในระบบ</p></a>
+        <a class="mcard" href="#" data-p="ตั้งค่าระบบ" data-i="gear"><svg class="ico go" aria-hidden="true"><use href="#i-go"></use></svg><div class="cic"><svg class="ico"><use href="#i-gear"></use></svg></div><h3>ตั้งค่าระบบ</h3><p>ค่าเริ่มต้นและการตั้งค่าทั่วไป</p></a>
+    </div>
+</template>
+
+<template id="dashboardPlaceholderTemplate">
+    <div class="empty"><div class="cic"><svg class="ico" aria-hidden="true"><use id="placeholderIcon"></use></svg></div><h2 id="placeholderTitle"></h2><p>หน้านี้เป็นตัวอย่าง ยังไม่มีเนื้อหา</p><button class="btn-nb" type="button" data-p="หน้าแรก" data-i="home">กลับหน้าแรก</button></div>
+</template>
